@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import {} from 'dotenv/config'
 import {v4 as uuidv4} from 'uuid'
 import db from '#~/config/firebase.js'
+import getUserInfo from './getUserInfor.js'
 
 const access_token_key = process.env.ACCESS_TOKEN_KEY
 const access_token_expires_time = process.env.ACCESS_TOKEN_EXPIRES_TIME
@@ -37,9 +38,12 @@ async function createTokens(id) {
 		session_id,
 	})
 
+	const userInfor = await getUserInfo(accessToken)
+
 	return {
 		accessToken,
-		refreshToken
+		refreshToken,
+		information: userInfor
 	}
 }
 
